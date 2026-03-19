@@ -7,51 +7,67 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body class="bg-gray-950 text-white">
-  <!-- LOGIN SCREEN -->
-  <div id="loginScreen" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 to-black">
-    <div class="bg-gray-900 p-10 rounded-3xl w-full max-w-md">
-      <div class="flex items-center justify-center gap-4 mb-6">
-        <span class="text-6xl">🎮</span>
-        <h1 class="text-5xl font-bold text-green-400">TOPUP.ID</h1>
-      </div>
-      <p class="text-center text-gray-400 text-xl mb-10">Owner Dashboard 2026</p>
-      
-      <input id="username" type="text" value="admin" placeholder="Username" 
-             class="w-full p-5 bg-gray-800 rounded-2xl text-lg mb-4">
-      <input id="password" type="password" placeholder="Password" 
-             class="w-full p-5 bg-gray-800 rounded-2xl text-lg mb-8">
-      
-      <button onclick="handleLogin()" 
-              class="w-full bg-green-500 hover:bg-green-600 py-5 rounded-2xl font-bold text-xl">
-        LOGIN ADMIN
-      </button>
+<body class="bg-gray-950 text-white min-h-screen">
+
+  <!-- LOGIN -->
+  <div id="loginScreen" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 to-black p-4">
+    <div class="bg-gray-900 p-8 rounded-3xl w-full max-w-md">
+      <div class="flex justify-center mb-6 text-6xl">🎮</div>
+      <h1 class="text-center text-5xl font-bold text-green-400">TOPUP.ID</h1>
+      <p class="text-center text-gray-400 mt-2">Owner Dashboard 2026</p>
+      <input id="username" value="admin" class="w-full mt-10 p-5 bg-gray-800 rounded-2xl text-lg">
+      <input id="password" type="password" placeholder="Password (topup123)" class="w-full mt-4 p-5 bg-gray-800 rounded-2xl text-lg">
+      <button onclick="handleLogin()" class="w-full mt-8 bg-green-500 py-5 rounded-2xl font-bold text-xl">LOGIN ADMIN</button>
     </div>
   </div>
 
   <!-- DASHBOARD -->
-  <div id="dashboardScreen" class="hidden flex h-screen">
-    <!-- Sidebar -->
-    <div class="w-72 bg-gray-900 p-6 flex flex-col border-r border-gray-800">
-      <h1 class="text-3xl font-bold text-green-400 mb-10 flex items-center gap-3">🎮 TOPUP.ID</h1>
-      <nav class="flex-1 space-y-2">
-        <a onclick="navigateTo('home')" class="flex items-center gap-3 p-4 hover:bg-gray-800 rounded-2xl cursor-pointer">🏠 Dashboard</a>
-        <a onclick="navigateTo('products')" class="flex items-center gap-3 p-4 hover:bg-gray-800 rounded-2xl cursor-pointer">📦 Produk Game</a>
-        <a onclick="navigateTo('trading')" class="flex items-center gap-3 p-4 hover:bg-gray-800 rounded-2xl cursor-pointer">🔄 Trading</a>
-        <a onclick="navigateTo('orders')" class="flex items-center gap-3 p-4 hover:bg-gray-800 rounded-2xl cursor-pointer">📋 Orders</a>
-        <a onclick="navigateTo('telegram')" class="flex items-center gap-3 p-4 hover:bg-gray-800 rounded-2xl cursor-pointer">🤖 Telegram Bot</a>
-      </nav>
-      <button onclick="logout()" class="mt-auto text-red-400 hover:bg-gray-800 p-4 rounded-2xl flex items-center gap-3">
-        <i class="fas fa-sign-out-alt"></i> Logout
-      </button>
+  <div id="dashboardScreen" class="hidden">
+    <!-- MOBILE HEADER -->
+    <div class="md:hidden bg-gray-900 p-4 flex items-center justify-between border-b border-gray-800 fixed top-0 w-full z-50">
+      <div class="flex items-center gap-3">
+        <span class="text-3xl">🎮</span>
+        <h1 class="text-2xl font-bold text-green-400">TOPUP.ID</h1>
+      </div>
+      <button onclick="toggleSidebar()" class="text-4xl">☰</button>
     </div>
 
-    <!-- Main Content -->
-    <div class="flex-1 overflow-auto p-8" id="mainContent"></div>
+    <div class="flex pt-16 md:pt-0">
+      <!-- SIDEBAR -->
+      <div id="sidebar" class="w-72 bg-gray-900 border-r border-gray-800 p-6 flex-col fixed md:static inset-y-0 left-0 z-50 hidden md:flex transition-all">
+        <div class="flex items-center gap-3 mb-10">
+          <span class="text-4xl">🎮</span>
+          <h1 class="text-3xl font-bold text-green-400">TOPUP.ID</h1>
+        </div>
+        <nav class="space-y-2 flex-1">
+          <a onclick="navigateTo('home');toggleSidebar()" class="flex items-center gap-4 p-4 hover:bg-gray-800 rounded-2xl cursor-pointer"><span class="text-2xl">🏠</span> Dashboard</a>
+          <a onclick="navigateTo('products');toggleSidebar()" class="flex items-center gap-4 p-4 hover:bg-gray-800 rounded-2xl cursor-pointer"><span class="text-2xl">📦</span> Produk Game</a>
+          <a onclick="navigateTo('trading');toggleSidebar()" class="flex items-center gap-4 p-4 hover:bg-gray-800 rounded-2xl cursor-pointer"><span class="text-2xl">🔄</span> Trading</a>
+          <a onclick="navigateTo('orders');toggleSidebar()" class="flex items-center gap-4 p-4 hover:bg-gray-800 rounded-2xl cursor-pointer"><span class="text-2xl">📋</span> Orders</a>
+          <a onclick="navigateTo('telegram');toggleSidebar()" class="flex items-center gap-4 p-4 hover:bg-gray-800 rounded-2xl cursor-pointer"><span class="text-2xl">🤖</span> Telegram Bot</a>
+        </nav>
+        <button onclick="logout()" class="mt-auto flex items-center gap-3 text-red-400 p-4 hover:bg-gray-800 rounded-2xl w-full">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+
+      <!-- MAIN CONTENT -->
+      <div class="flex-1 overflow-auto p-4 md:p-8" id="mainContent"></div>
+    </div>
+  </div>
+
+  <!-- MODAL EDIT HARGA -->
+  <div id="editModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div class="bg-gray-900 p-8 rounded-3xl w-full max-w-md">
+      <h3 class="text-2xl font-bold mb-6">Edit Harga Paket</h3>
+      <input id="editPriceInput" type="number" class="w-full p-5 bg-gray-800 rounded-2xl text-3xl mb-6">
+      <button onclick="saveEditPrice()" class="w-full bg-green-500 py-5 rounded-2xl font-bold text-xl">Simpan Perubahan</button>
+      <button onclick="closeModal()" class="mt-4 text-gray-400">Batal</button>
+    </div>
   </div>
 
   <script>
-    // Data
+    // DATA
     let products = [
       {id:1, game:"Mobile Legends", icon:"⚔️", packages:[{name:"12 Diamonds", price:3500},{name:"85 Diamonds", price:23000},{name:"366 Diamonds", price:100000}]},
       {id:2, game:"Free Fire", icon:"🔥", packages:[{name:"50 Diamonds", price:7207},{name:"140 Diamonds", price:18018},{name:"1450 Diamonds", price:180180}]},
@@ -60,56 +76,137 @@
     ];
     let orders = [{id:101, user:"@rizky123", game:"Mobile Legends", paket:"85 Diamonds", uid:"123456789", amount:23000, status:"pending"}];
     let trades = [{id:1, game:"MLBB Akun Mythic", item:"Skin Legend + 5000 DM", price:450000, status:"Available"}];
-
     let botToken = localStorage.getItem('botToken') || '';
-    let botInfo = JSON.parse(localStorage.getItem('botInfo') || '{}');
+    let currentEdit = {};
 
-    // Login
+    // LOGIN
     function handleLogin() {
-      const u = document.getElementById('username').value.trim();
-      const p = document.getElementById('password').value.trim();
-      if (u === 'admin' && p === 'topup123') {
+      const pass = document.getElementById('password').value.trim();
+      if (pass === 'topup123') {
         localStorage.setItem('loggedIn', 'true');
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('dashboardScreen').classList.remove('hidden');
         navigateTo('home');
-      } else {
-        alert('❌ Username atau Password salah!\n\nCoba: admin / topup123');
-      }
+      } else alert('❌ Password salah! Coba: topup123');
     }
 
     function logout() {
-      localStorage.clear();
-      location.reload();
-    }
-
-    // Navigation
-    function navigateTo(page) {
-      const content = document.getElementById('mainContent');
-      if (page === 'telegram') {
-        // ... (full telegram section with webhook seperti sebelumnya)
-        content.innerHTML = `...` ; // Saya singkat di sini, tapi di kode asli sudah lengkap
-      } else if (page === 'products') {
-        let html = `<h2 class="text-3xl font-bold mb-8">Produk Game (Harga Real 2026)</h2><div class="grid grid-cols-2 gap-8">`;
-        products.forEach(p => {
-          html += `<div class="bg-gray-900 p-8 rounded-3xl">...`; // full seperti sebelumnya
-        });
-        content.innerHTML = html;
-      } else if (page === 'orders') {
-        let html = `<h2 class="text-3xl font-bold mb-8">Pending Orders</h2>`;
-        orders.forEach(o => {
-          html += `<div class="bg-gray-900 p-8 rounded-3xl mb-6 flex justify-between"><div><p class="font-bold">${o.user}</p><p>${o.paket}</p></div><button onclick="confirmOrder(${o.id})" class="bg-green-500 px-8 py-4 rounded-2xl">✅ Konfirmasi</button></div>`;
-        });
-        content.innerHTML = html;
-      } else {
-        content.innerHTML = `<h2 class="text-3xl font-bold">Selamat Datang di Dashboard! 👋</h2>`;
+      if (confirm('Logout sekarang?')) {
+        localStorage.clear();
+        location.reload();
       }
     }
 
-    // Fungsi lain (validateToken, setWebhook, dll) tetap ada seperti kode sebelumnya
-    // (Saya tidak ulang di sini karena terlalu panjang, tapi di kode yang kamu copy sudah lengkap 100%)
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('hidden');
+    }
 
-    // Auto check login
+    // NAVIGATION
+    function navigateTo(page) {
+      const content = document.getElementById('mainContent');
+      if (page === 'home') {
+        content.innerHTML = `
+          <h2 class="text-4xl font-bold mb-8">Selamat Datang, Owner! 👋</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-gray-900 p-8 rounded-3xl text-center"><div class="text-6xl mb-4">💰</div><p class="text-4xl font-bold text-green-400">Rp 2.450.000</p><p class="text-sm text-gray-400">Penjualan Hari Ini</p></div>
+            <div class="bg-gray-900 p-8 rounded-3xl text-center"><div class="text-6xl mb-4">📦</div><p class="text-4xl font-bold">23</p><p class="text-sm text-gray-400">Order Hari Ini</p></div>
+            <div class="bg-gray-900 p-8 rounded-3xl text-center"><div class="text-6xl mb-4">👥</div><p class="text-4xl font-bold">184</p><p class="text-sm text-gray-400">Pelanggan Aktif</p></div>
+            <div class="bg-gray-900 p-8 rounded-3xl text-center"><div class="text-6xl mb-4">🤖</div><p class="text-4xl font-bold text-green-400">ONLINE</p><p class="text-sm text-gray-400">Telegram Bot</p></div>
+          </div>`;
+      } else if (page === 'products') {
+        let html = `<h2 class="text-3xl font-bold mb-8">Produk Game (Harga Real 2026)</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-8">`;
+        products.forEach(p => {
+          html += `<div class="bg-gray-900 p-8 rounded-3xl"><div class="flex gap-4 items-center mb-6"><span class="text-5xl">${p.icon}</span><h3 class="text-2xl font-bold">${p.game}</h3></div>`;
+          p.packages.forEach(pkg => {
+            html += `<div class="flex justify-between items-center bg-gray-800 p-5 rounded-2xl mb-3"><span>${pkg.name}</span><div><span class="font-bold text-green-400">Rp ${pkg.price.toLocaleString('id-ID')}</span> <button onclick="editPrice(${p.id}, '${pkg.name}', ${pkg.price})" class="ml-3 text-blue-400"><i class="fas fa-edit"></i></button></div></div>`;
+          });
+          html += `</div>`;
+        });
+        html += `</div>`;
+        content.innerHTML = html;
+      } else if (page === 'trading') {
+        content.innerHTML = `<h2 class="text-3xl font-bold mb-8">Trading P2P</h2><table class="w-full"><thead><tr class="bg-gray-800"><th class="p-4">Game</th><th>Item</th><th>Harga</th><th>Status</th></tr></thead><tbody class="divide-y divide-gray-700">${trades.map(t => `<tr><td class="p-4">${t.game}</td><td class="p-4">${t.item}</td><td class="p-4 font-bold">Rp ${t.price.toLocaleString('id-ID')}</td><td class="p-4"><span class="bg-green-500 text-xs px-4 py-1 rounded-full">Available</span></td></tr>`).join('')}</tbody></table>`;
+      } else if (page === 'orders') {
+        let html = `<h2 class="text-3xl font-bold mb-8">Pending Orders</h2>`;
+        orders.forEach(o => {
+          html += `<div class="bg-gray-900 p-8 rounded-3xl mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4"><div><p class="font-bold">${o.user} • ${o.game}</p><p>${o.paket} • UID: ${o.uid}</p></div><button onclick="confirmOrder(${o.id})" class="bg-green-500 px-8 py-4 rounded-2xl font-bold">✅ Konfirmasi & Kirim via Telegram</button></div>`;
+        });
+        content.innerHTML = html;
+      } else if (page === 'telegram') {
+        content.innerHTML = `
+          <h2 class="text-3xl font-bold mb-8">🤖 Telegram Bot + Webhook</h2>
+          <div class="max-w-2xl bg-gray-900 p-10 rounded-3xl">
+            <input id="tokenInput" value="${botToken}" placeholder="Paste Bot Token dari @BotFather" class="w-full p-5 bg-gray-800 rounded-2xl mb-6">
+            <div class="grid grid-cols-2 gap-4">
+              <button onclick="validateToken()" class="bg-blue-600 py-5 rounded-2xl font-bold">Validasi Token</button>
+              <button onclick="setWebhook()" class="bg-green-600 py-5 rounded-2xl font-bold">Set Webhook</button>
+            </div>
+            <div class="mt-8 text-sm text-gray-400">Webhook URL: https://guardians-tele.vercel.app/api/webhook</div>
+          </div>`;
+      }
+    }
+
+    // EDIT HARGA
+    function editPrice(id, name, price) {
+      currentEdit = {id, name, price};
+      document.getElementById('editPriceInput').value = price;
+      document.getElementById('editModal').classList.remove('hidden');
+    }
+    function saveEditPrice() {
+      const newPrice = parseInt(document.getElementById('editPriceInput').value);
+      products.forEach(p => {
+        if (p.id === currentEdit.id) {
+          p.packages.forEach(pkg => {
+            if (pkg.name === currentEdit.name) pkg.price = newPrice;
+          });
+        }
+      });
+      closeModal();
+      navigateTo('products');
+    }
+    function closeModal() {
+      document.getElementById('editModal').classList.add('hidden');
+    }
+
+    // CONFIRM ORDER + SIMULASI TELEGRAM
+    function confirmOrder(id) {
+      const order = orders.find(o => o.id === id);
+      if (order && botToken) {
+        alert(`✅ Order #${id} dikonfirmasi!\n\nTop-up ${order.paket} berhasil masuk ke ${order.uid}\n\nPesan otomatis terkirim ke pelanggan via Telegram Bot!`);
+        orders = orders.filter(o => o.id !== id);
+        navigateTo('orders');
+      } else {
+        alert('✅ Order dikonfirmasi (bot belum aktif)');
+      }
+    }
+
+    // TELEGRAM FUNCTIONS
+    async function validateToken() {
+      const token = document.getElementById('tokenInput').value.trim();
+      if (!token) return alert('Masukkan token!');
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${token}/getMe`);
+        const data = await res.json();
+        if (data.ok) {
+          botToken = token;
+          localStorage.setItem('botToken', token);
+          alert(`✅ Token VALID! Bot: @${data.result.username}`);
+        } else alert('❌ Token tidak valid');
+      } catch(e) { alert('Gagal koneksi'); }
+    }
+
+    async function setWebhook() {
+      const token = document.getElementById('tokenInput').value.trim();
+      if (!token) return alert('Token kosong!');
+      const url = 'https://guardians-tele.vercel.app/api/webhook';
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${token}/setWebhook?url=${encodeURIComponent(url)}`);
+        const data = await res.json();
+        alert(data.ok ? '✅ Webhook berhasil di-set!' : '❌ Gagal: ' + data.description);
+      } catch(e) { alert('Gagal koneksi'); }
+    }
+
+    // AUTO LOGIN
     if (localStorage.getItem('loggedIn') === 'true') {
       document.getElementById('loginScreen').classList.add('hidden');
       document.getElementById('dashboardScreen').classList.remove('hidden');
